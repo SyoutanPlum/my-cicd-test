@@ -15,7 +15,10 @@ jobs:
     # どんなOS（環境）で作業させるか
     # -> 最新のUbuntu（Linux）環境
     runs-on: ubuntu-latest
-
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     # 実際の手順（ステップ）
     steps:
       # 1. まず、リポジトリ（コード置き場）のコードを手元に持ってくる
