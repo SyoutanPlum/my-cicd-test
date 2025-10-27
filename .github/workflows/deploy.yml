@@ -1,0 +1,39 @@
+# ワークフロー（自動化の流れ）の名前
+name: Deploy to GitHub Pages
+
+# どのタイミングで自動化を実行するか？
+# -> mainブランチに「プッシュ（保存）」された時
+on:
+  push:
+    branches:
+      - main  # mainブランチ（一番中心のブランチ）が対象
+
+# 実行するお仕事（ジョブ）
+jobs:
+  # 'build-and-deploy' という名前のお仕事（名前は自由）
+  build-and-deploy:
+    # どんなOS（環境）で作業させるか
+    # -> 最新のUbuntu（Linux）環境
+    runs-on: ubuntu-latest
+
+    # 実際の手順（ステップ）
+    steps:
+      # 1. まず、リポジトリ（コード置き場）のコードを手元に持ってくる
+      - name: Checkout repository
+        uses: actions/checkout@v4 # 'actions/checkout'という便利な命令を使う
+
+      # 2. GitHub Pagesにデプロイ（公開）するための準備
+      - name: Setup Pages
+        uses: actions/configure-pages@v4 # 'actions/configure-pages'という便利な命令を使う
+
+      # 3. サイトのファイル（HTMLやCSS）をアップロードする
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3 # 'actions/upload-pages-artifact'という便利な命令を使う
+        with:
+          # ここにサイトのファイルがあるフォルダを指定（今回はリポジトリ直下なので'.'）
+          path: '.'
+
+      # 4. サイトを公開（デプロイ）する
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4 # 'actions/deploy-pages'という便利な命令を使う
